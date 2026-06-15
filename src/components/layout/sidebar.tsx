@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { Shield, LayoutDashboard, FolderOpen, Bell, Settings, LogOut, Plus, Menu, X } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
 import type { User } from '@supabase/supabase-js'
@@ -15,9 +16,17 @@ const nav = [
 ]
 
 function SidebarContent({ user, onNavigate }: { user: User; onNavigate?: () => void }) {
-  const pathname = usePathname()
-  const router   = useRouter()
-  const supabase = createClient()
+  const pathname    = usePathname()
+  const router      = useRouter()
+  const supabase    = createClient()
+  const [alertCount, setAlertCount] = useState(0)
+
+  useEffect(() => {
+    fetch('/api/dashboard/stats')
+      .then(r => r.ok ? r.json() : null)
+      .then(d => d && setAlertCount(d.alertCount ?? 0))
+      .catch(() => {})
+  }, [pathname])
 
   async function handleSignOut() {
     await supabase.auth.signOut()
@@ -57,6 +66,11 @@ function SidebarContent({ user, onNavigate }: { user: User; onNavigate?: () => v
               className={cn('flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-colors',
                 active ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground')}>
               <Icon className="h-4 w-4" />{label}
+              {label === 'Alerts' && alertCount > 0 && (
+                <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                  {alertCount > 9 ? '9+' : alertCount}
+                </span>
+              )}
             </Link>
           )
         })}
