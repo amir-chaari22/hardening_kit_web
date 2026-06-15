@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/forms'
 import { Shield, User, Building2, Key, Zap } from 'lucide-react'
 import ProfileForm from '@/components/settings/profile-form'
+import OrgForm from '@/components/settings/org-form'
 import ApiKeySection from '@/components/settings/api-key-section'
 
 export default async function SettingsPage() {

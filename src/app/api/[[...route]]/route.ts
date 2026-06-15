@@ -127,6 +127,18 @@ app.delete('/projects/:projectId/exceptions/:id', async (c) => {
   return c.json({ success: true })
 })
 
+// ── Organizations ────────────────────────────────────────────────────────────
+app.patch('/organizations', async (c) => {
+  const user = c.get('user')
+  const body = await c.req.json<{ name: string }>()
+  const member = await db.query.members.findFirst({ where: eq(members.userId, user.id) })
+  if (!member) throw new HTTPException(403)
+  if (!['owner','admin'].includes(member.role)) throw new HTTPException(403, { message: 'Not authorized' })
+  const { organizations } = await import('@/lib/db/schema')
+  await db.update(organizations).set({ name: body.name, updatedAt: new Date() }).where(eq(organizations.id, member.orgId))
+  return c.json({ success: true })
+})
+
 // ── Alerts ────────────────────────────────────────────────────────────────────
 app.get('/alerts', async (c) => {
   const user = c.get('user')
