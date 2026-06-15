@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%; --foreground: 224 20% 8%;
+    --card: 0 0% 98%; --card-foreground: 224 20% 8%;
+    --popover: 0 0% 100%; --popover-foreground: 224 20% 8%;
+    --primary: 243 75% 58%; --primary-foreground: 0 0% 100%;
+    --secondary: 220 14% 96%; --secondary-foreground: 224 20% 8%;
+    --muted: 220 14% 96%; --muted-foreground: 220 9% 46%;
+    --accent: 220 14% 94%; --accent-foreground: 224 20% 8%;
+    --destructive: 0 84% 60%; --destructive-foreground: 0 0% 100%;
+    --border: 220 13% 91%; --input: 220 13% 91%; --ring: 243 75% 58%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 224 20% 6%; --foreground: 210 20% 98%;
+    --card: 224 20% 8%; --card-foreground: 210 20% 98%;
+    --primary: 243 75% 65%; --primary-foreground: 0 0% 100%;
+    --secondary: 224 16% 14%; --secondary-foreground: 210 20% 98%;
+    --muted: 224 16% 14%; --muted-foreground: 215 16% 56%;
+    --accent: 224 16% 16%; --accent-foreground: 210 20% 98%;
+    --destructive: 0 63% 31%; --destructive-foreground: 210 20% 98%;
+    --border: 224 16% 16%; --input: 224 16% 16%; --ring: 243 75% 65%;
+  }
+}
+@layer base { * { @apply border-border; } body { @apply bg-background text-foreground; } }
+.decision-approve { @apply text-emerald-600 dark:text-emerald-400; }
+.decision-block   { @apply text-red-600 dark:text-red-400; }
+.decision-needs   { @apply text-amber-600 dark:text-amber-400; }
+.violation-block  { @apply border-l-4 border-l-red-500 bg-red-50 dark:bg-red-950/20 rounded-r-md px-4 py-3; }
+.violation-warn   { @apply border-l-4 border-l-amber-400 bg-amber-50 dark:bg-amber-950/20 rounded-r-md px-4 py-3; }
+.policy-id        { @apply font-mono text-xs bg-muted px-1.5 py-0.5 rounded; }

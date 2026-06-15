@@ -1,0 +1,10 @@
+node_modules/
+.next/
+.env.local
+*.tsbuildinfo
+drizzle/*.snap
+.env.local
+node_modules/
+.next/
+*.tsbuildinfo
+drizzle/*.snap
