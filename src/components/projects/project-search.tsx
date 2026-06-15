@@ -1,0 +1,19 @@
+'use client'
+import { useState } from 'react'
+import { Search } from 'lucide-react'
+import { Input } from '@/components/ui/forms'
+
+export default function ProjectSearch({ onSearch }: { onSearch: (q: string) => void }) {
+  const [q, setQ] = useState('')
+  return (
+    <div className="relative">
+      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+      <Input
+        placeholder="Search projects…"
+        className="pl-9 h-9 w-64"
+        value={q}
+        onChange={e => { setQ(e.target.value); onSearch(e.target.value) }}
+      />
+    </div>
+  )
+}

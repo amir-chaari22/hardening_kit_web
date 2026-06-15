@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Shield, FolderOpen, AlertTriangle, TrendingUp, Plus, ArrowRight, CheckCircle2, XCircle, Clock } from 'lucide-react'
 import Link from 'next/link'
 import { formatDistanceToNow } from 'date-fns'
+import ScanTrend from '@/components/dashboard/scan-trend'
 
 type ScanDecision = 'APPROVE' | 'BLOCK' | 'NEEDS_FIXES'
 
@@ -44,6 +45,23 @@ export default async function DashboardPage() {
   const [aCount] = await db.select({ count: count() }).from(alerts).where(and(eq(alerts.orgId, member.orgId), eq(alerts.read, false)))
   const total = Number(sCount.count); const blocked = Number(bCount.count)
   const stats = { projects: Number(pCount.count), scans: total, blockRate: total > 0 ? Math.round((blocked/total)*100) : 0, alerts: Number(aCount.count) }
+
+  // 30-day trend
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+  const trendScans = await db.query.scans.findMany({
+    where: and(eq(scans.orgId, member.orgId), gte(scans.createdAt, thirtyDaysAgo)),
+    orderBy: [desc(scans.createdAt)],
+  })
+  // Group by day
+  const trendMap: Record<string, { approved: number; blocked: number; needs: number }> = {}
+  for (const s of trendScans) {
+    const day = new Date(s.createdAt).toISOString().slice(5, 10) // MM-DD
+    if (!trendMap[day]) trendMap[day] = { approved: 0, blocked: 0, needs: 0 }
+    if (s.decision === 'APPROVE')      trendMap[day].approved++
+    else if (s.decision === 'BLOCK')   trendMap[day].blocked++
+    else                               trendMap[day].needs++
+  }
+  const trendData = Object.entries(trendMap).slice(-14).map(([date, v]) => ({ date, ...v }))
 
   const recentScans = await db.query.scans.findMany({ where: eq(scans.orgId, member.orgId), orderBy: [desc(scans.createdAt)], limit: 8 })
   const projectMap: Record<string, string> = {}
