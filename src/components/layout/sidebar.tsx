@@ -28,6 +28,7 @@ function SidebarContent({ user, onNavigate }: { user: User; onNavigate?: () => v
   }, [pathname])
 
   async function handleSignOut() {
+    if (!window.confirm('Sign out of Hardening Kit?')) return
     await supabase.auth.signOut()
     router.push('/auth/login')
   }

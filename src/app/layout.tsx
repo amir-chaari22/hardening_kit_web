@@ -3,6 +3,10 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+  },
   title: 'Hardening Kit — Release Security Platform',
   description: 'AI-native SaaS release hardening. 30 security policies, 21 scanners, automated CI/CD gates.',
   keywords: ['security', 'devsecops', 'release hardening', 'SAST', 'SBOM', 'supply chain'],
