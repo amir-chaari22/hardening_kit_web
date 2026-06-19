@@ -126,7 +126,7 @@ vercel --prod
 
 Set all `.env.local` variables in the Vercel dashboard.
 
-## API endpoints (Hono)
+## API endpoints (Hono) — 16 total
 
 | Method | Path | Description |
 |--------|------|-------------|
@@ -136,10 +136,13 @@ Set all `.env.local` variables in the Vercel dashboard.
 | GET    | /api/projects/:id | Get project |
 | GET    | /api/projects/:id/scans | List scans |
 | POST   | /api/projects/:id/scans | Submit scan result |
-| GET    | /api/scans/:id | Get scan |
+| GET    | /api/scans/:id | Get scan detail |
 | GET    | /api/projects/:id/exceptions | List exceptions |
 | POST   | /api/projects/:id/exceptions | Add exception |
 | DELETE | /api/projects/:id/exceptions/:id | Remove exception |
-| GET    | /api/alerts | List unread alerts |
+| PATCH  | /api/organizations | Update org name |
+| GET    | /api/alerts | List alerts |
 | PATCH  | /api/alerts/:id/read | Mark alert read |
+| POST   | /api/alerts/read-all | Mark all alerts read |
+| POST   | /api/api-keys | Create API key |
 | GET    | /api/dashboard/stats | Dashboard statistics |
