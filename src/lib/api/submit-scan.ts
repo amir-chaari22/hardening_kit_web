@@ -67,7 +67,8 @@ export async function submitScan(result: CliScanResult, opts: SubmitOptions): Pr
   }
 
   const { scan } = await res.json() as { scan: { id: string; decision: string } }
-  console.log(`✅ Scan submitted: ${scan.id} (${scan.decision})`)
+  // eslint-disable-next-line no-console
+  process.stdout.write(`✅ Scan submitted: ${scan.id} (${scan.decision})\n`)
 }
 
 /**
